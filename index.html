@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Trello JSON Reader</title>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+	<script src="js/jquery.ns-autogrow.min.js"></script>
+
+	<script src="https://unpkg.com/showdown@1.9.1/dist/showdown.min.js" crossorigin="anonymous"></script>
+	
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+	<script>
+		var converter = new showdown.Converter();
+		
+		$(document).ready(function () {
+			$('#txtJSON').autogrow({ horizontal: false });
+		});
+		
+		function readJSON() {
+			var $datos = $('#divDatos');
+			var jsDato = JSON.parse($('#txtJSON').val());
+
+			$datos.html('<h2>' + jsDato.name + '</h2>');
+			$datos.append('<h4>Description</h4>');
+			$datos.append(converter.makeHtml(jsDato.desc));
+
+			if (jsDato.checklists.length > 0) {
+				$datos.append('<h4>Checklists</h4>');
+				$(jsDato.checklists).each(function (index, chkList) {
+					$datos.append('<div class="mt-4">');
+					$datos.append('<strong>' + chkList.name + '</strong>');
+					
+					// Items
+					$(chkList.checkItems).each(function (index, item) {
+						$datos.append('<div>');
+						if (item.state == 'complete') {
+							$datos.append('<i class="far fa-fw fa-check-square text-primary"></i> ' + item.name);
+						}
+						else {
+							$datos.append('<i class="far fa-fw fa-square text-primary"></i> ' + item.name);
+						}
+						$datos.append('</div>');
+					});
+					
+					$datos.append('</div>');
+				});
+			}
+			return false;
+		}
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="p-2 bg-light">
+			<h1>Trello JSON Reader</h1>
+		</div>
+		<form onsubmit="return readJSON()">
+			<div class="form-floating mb-3">
+				<textarea class="form-control form-control-sm" id="txtJSON" style="max-height: 20vh;" required></textarea>
+				<label for="txtJSON">JSON Code</label>
+			</div>
+			<div class="text-end">
+				<button class="btn btn-sm btn-primary">Read</button>
+			</div>
+		</form>
+
+		<hr>
+
+		<div id="divDatos" class="pb-4"></div>
+	</div>
+	
+</body>
+</html>
