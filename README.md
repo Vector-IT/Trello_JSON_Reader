@@ -1,2 +1,3 @@
-# Trello_JSON_Reader
-Trello JSON Extract Reader
+# Trello JSON Reader
+
+Simple HTML with javascript libraries to read the JSON file produced when exporting a card in Trello.
