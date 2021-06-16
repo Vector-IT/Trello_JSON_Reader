@@ -29,8 +29,11 @@
 			var jsDato = JSON.parse($('#txtJSON').val());
 
 			$datos.html('<h2>' + jsDato.name + '</h2>');
-			$datos.append('<h4>Description</h4>');
-			$datos.append(converter.makeHtml(jsDato.desc));
+
+			if (jsDato.desc != '') {
+				$datos.append('<h4>Description</h4>');
+				$datos.append(converter.makeHtml(jsDato.desc));
+			}
 
 			if (jsDato.checklists.length > 0) {
 				$datos.append('<h4>Checklists</h4>');
