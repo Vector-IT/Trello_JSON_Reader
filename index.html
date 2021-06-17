@@ -28,20 +28,46 @@
 			var $datos = $('#divDatos');
 			var jsDato = JSON.parse($('#txtJSON').val());
 
+			// Title
 			$datos.html('<h2>' + jsDato.name + '</h2>');
 
+			// Date
+			if (jsDato.due != '') {
+				let fechVenc = new Date(jsDato.due);
+
+				$datos.append('<div class=""><strong>Expire:</strong> ' + fechVenc + '</div>');
+			}
+
+			// URL
+			if (jsDato.shortUrl != '') {
+				$datos.append('<a href="' + jsDato.shortUrl + '">Link</a>');
+			}
+
+			// Description
 			if (jsDato.desc != '') {
-				$datos.append('<h4>Description</h4>');
+				$datos.append('<h4 class="mt-4">Description</h4>');
 				$datos.append(converter.makeHtml(jsDato.desc));
 			}
 
+			// Checklists
 			if (jsDato.checklists.length > 0) {
-				$datos.append('<h4>Checklists</h4>');
+				$datos.append('<h4 class="mt-4">Checklists</h4>');
+
+				// Order the array by position
+				jsDato.checklists.sort(function(a, b) {
+					return a.pos - b.pos;
+				});
+
 				$(jsDato.checklists).each(function (index, chkList) {
 					$datos.append('<div class="mt-4">');
 					$datos.append('<strong>' + chkList.name + '</strong>');
 					
 					// Items
+					// Order the items by position
+					chkList.checkItems.sort(function(a, b) {
+						return a.pos - b.pos;
+					});
+
 					$(chkList.checkItems).each(function (index, item) {
 						$datos.append('<div>');
 						if (item.state == 'complete') {
@@ -56,6 +82,10 @@
 					$datos.append('</div>');
 				});
 			}
+
+			// Activity
+			// jsDato.actions;
+
 			return false;
 		}
 	</script>
