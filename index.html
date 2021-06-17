@@ -15,8 +15,6 @@
 
 	<script src="https://unpkg.com/showdown@1.9.1/dist/showdown.min.js" crossorigin="anonymous"></script>
 	
-	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
 	<script>
 		var converter = new showdown.Converter();
 		
@@ -71,10 +69,12 @@
 					$(chkList.checkItems).each(function (index, item) {
 						$datos.append('<div>');
 						if (item.state == 'complete') {
-							$datos.append('<i class="far fa-fw fa-check-square text-primary"></i> ' + item.name);
+							// $datos.append('<i class="far fa-fw fa-check-square text-primary"></i> ' + item.name);
+							$datos.append('&#x2705;&nbsp;' + item.name);
 						}
 						else {
-							$datos.append('<i class="far fa-fw fa-square text-primary"></i> ' + item.name);
+							// $datos.append('<i class="far fa-fw fa-square text-primary"></i> ' + item.name);
+							$datos.append('&#x274C;&nbsp;' + item.name);
 						}
 						$datos.append('</div>');
 					});
