@@ -30,7 +30,7 @@
 			$datos.html('<h2>' + jsDato.name + '</h2>');
 
 			// Date
-			if (jsDato.due != '') {
+			if (jsDato.due != null) {
 				let fechVenc = new Date(jsDato.due);
 
 				$datos.append('<div class=""><strong>Expire:</strong> ' + fechVenc + '</div>');
